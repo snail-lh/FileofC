@@ -110,7 +110,28 @@ ListNode* InsertNodebyIndex(Linklist &Head,int index,int value){
     return Head;
 }
 
-//
+//删除节点，根据位置删除节点，返回头指针，位置不合法则返回NULL。
+ListNode* DeleteNodebyIndex(Linklist &Head,int index){
+    if(index <= 0)return NULL;
+    Linklist SearchPointer = GetElementbyIndex(Head,index - 1);
+     
+    if(SearchPointer == NULL || SearchPointer->next  == NULL)return NULL;
+    ListNode* Tem = SearchPointer->next;
+    SearchPointer->next = SearchPointer->next->next;
+    free(Tem);
+    return Head;
+}
+
+//求表长,返回长度
+int Length(Linklist Head){
+    int i = 0;
+    ListNode* TraversalList = Head->next;
+    while(TraversalList != NULL){
+        TraversalList = TraversalList->next;
+        i++;
+    }
+    return i;
+}
 
 int main()
 {
@@ -119,10 +140,10 @@ int main()
     // Head = InsertValuefromScanfbyHead(Head);
     Head = InsertValuefromScanfbyTail(Head);
     PrintAll(Head);
-    printf("Please input the inserted number and its index:");
-    int i = 0,j = 0;
-    cin>>i>>j;
-    InsertNodebyIndex(Head,i,j);
+    printf("Please input the deleted index of node");
+    int i = 0;
+    cin>>i;
+    DeleteNodebyIndex(Head,i);
     PrintAll(Head);
     return 0;
 }
