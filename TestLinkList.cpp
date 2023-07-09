@@ -60,7 +60,7 @@ ListNode* GetElementbyValue(Linklist &Head,int value){
     printf("The %dth one is %d",n,s->data);
     return s;
 }
-//尾部插入值
+//尾部插入值,创建一个nail指针从头指到尾
 ListNode *InsertValuefromScanfbyTail(Linklist &Head){
     ListNode *s,*nail;
     nail = Head;
@@ -121,9 +121,33 @@ ListNode* DeleteNodebyIndex(Linklist &Head,int index){
     free(Tem);
     return Head;
 }
+//根据值删除节点，不返回任何值
+void DeleteNodebyValue(Linklist &Head,int value){
+    if(Head->next == NULL)
+        return;
+    ListNode* s = Head;
+    while (s != NULL)
+    {
+        if(s->next == NULL)break;
+        if (s->next->data == value)
+        {
+            ListNode* p = s->next;
+            s->next = s->next->next;
+            free(p);
+        }
+        else
+        {
+            s = s->next;
+        }
+        
+        
+    }
+    return;
 
+
+}
 //求表长,返回长度
-int Length(Linklist Head){
+int Length(Linklist &Head){
     int i = 0;
     ListNode* TraversalList = Head->next;
     while(TraversalList != NULL){
@@ -131,6 +155,24 @@ int Length(Linklist Head){
         i++;
     }
     return i;
+}
+//反向输出链表(带头结点),用数组将链表的值按顺序存起来，然后数组反向输出
+void ReverseOrderOutput(Linklist &Head){
+    ListNode* s = Head -> next;
+    int length = Length(Head);
+    int a[length] = {0};
+    while(s != NULL){
+        for (int i = 0; i < length; i++)
+        {
+            a[i] = s->data;
+            s = s->next;
+        }
+        for (int i = length - 1; i >= 0; i--)
+        {
+            cout<<a[i]<<"/n";
+        }
+        
+    }
 }
 
 int main()
@@ -140,10 +182,10 @@ int main()
     // Head = InsertValuefromScanfbyHead(Head);
     Head = InsertValuefromScanfbyTail(Head);
     PrintAll(Head);
-    printf("Please input the deleted index of node");
+    printf("Please input the deleted value of node");
     int i = 0;
     cin>>i;
-    DeleteNodebyIndex(Head,i);
+    DeleteNodebyValue(Head,i);
     PrintAll(Head);
     return 0;
 }
